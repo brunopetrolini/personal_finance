@@ -43,27 +43,22 @@ class _HomePageState extends State<HomePage> {
     showBottomSheet(
       context: context,
       builder: (context) => Container(
+        margin: const EdgeInsets.fromLTRB(20, 0, 20, 40),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(8),
-            topRight: Radius.circular(8),
-          ),
+          borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
               blurRadius: 50,
               spreadRadius: 0,
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, -25),
+              color: Colors.grey.withOpacity(0.3),
+              offset: const Offset(0, 0),
             ),
           ],
         ),
         child: Container(
-          padding: const EdgeInsets.fromLTRB(16, 40, 16, 60),
+          padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
-            ),
+            borderRadius: BorderRadius.circular(30),
             color: const Color(0xFFFFFFFF),
           ),
           child: Column(

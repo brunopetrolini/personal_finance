@@ -48,9 +48,9 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
-              blurRadius: 50,
+              blurRadius: 25,
               spreadRadius: 0,
-              color: Colors.grey.withOpacity(0.3),
+              color: Colors.grey.withOpacity(0.5),
               offset: const Offset(0, 0),
             ),
           ],
@@ -101,30 +101,53 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(height: 16),
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                onPressed: () {
-                  if (descriptionController.text.isNotEmpty &&
-                      valueController.text.isNotEmpty) {
-                    _addNewExpense(descriptionController.text,
-                        double.parse(valueController.text));
-                  }
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    onPressed: () {
+                      if (descriptionController.text.isNotEmpty &&
+                          valueController.text.isNotEmpty) {
+                        _addNewExpense(descriptionController.text,
+                            double.parse(valueController.text));
+                        Navigator.of(context).pop();
 
-                  Navigator.of(context).pop();
-
-                  descriptionController.clear();
-                  valueController.clear();
-                },
-                child: Text(
-                  'Adicionar Despesa',
-                  style: TextStyle(
-                    color: const Color(0xFFE53935),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
+                        descriptionController.clear();
+                        valueController.clear();
+                      }
+                    },
+                    child: Text(
+                      'Adicionar Despesa',
+                      style: TextStyle(
+                        color: const Color(0xFF66BB6A),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                ),
+                  FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+
+                      descriptionController.clear();
+                      valueController.clear();
+                    },
+                    child: Text(
+                      'Cancelar',
+                      style: TextStyle(
+                        color: const Color(0xFFE53935),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -150,7 +173,8 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: CustomFloatingButton(
         onPressed: (context) => _showExpenseInput(context),
       ),
-      body: ListView(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             child: Column(
@@ -180,15 +204,20 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          ..._transactions
-              .map((item) => ExpenseCard(
-                    onDismissible: _onExpenseDismiss,
-                    id: item.id,
-                    description: item.description,
-                    date: item.date,
-                    value: item.value,
-                  ))
-              .toList(),
+          Flexible(
+            child: ListView.builder(
+              itemCount: _transactions.length,
+              itemBuilder: (context, index) {
+                return ExpenseCard(
+                  onDismissible: _onExpenseDismiss,
+                  id: _transactions[index].id,
+                  description: _transactions[index].description,
+                  date: _transactions[index].date,
+                  value: _transactions[index].value,
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
